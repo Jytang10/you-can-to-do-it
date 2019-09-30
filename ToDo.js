@@ -22,7 +22,7 @@ export default class ToDo extends React.Component {
   };
 
   _toggleComplete = (event) => {
-    event.stopPragation();
+    event.stopPropagation();
     const { isCompleted, uncompleteToDo, completeToDo, id } = this.props;
     if(isCompleted) {
       uncompleteToDo(id);
@@ -32,7 +32,7 @@ export default class ToDo extends React.Component {
   }
 
   _startEditing = (event) => {
-    event.stopPragation();
+    event.stopPropagation();
     const { text } = this.props;
     this.setState({
       isEditing: true,
@@ -41,7 +41,7 @@ export default class ToDo extends React.Component {
   }
 
   _finishEditing = (event) => {
-    event.stopPragation();
+    event.stopPropagation();
     const { toDoValue } = this.state;
     const { id, updateToDo } = this.props;
     updateToDo(id, toDoValue);
