@@ -148,7 +148,9 @@ export default class App extends React.Component {
           >
           </TextInput>
           <ScrollView contentContainerStyle={styles.toDos}>
-            {Object.values(toDos).map( toDo => 
+            {Object.values(toDos)
+            .reverse()
+            .map( toDo => 
               <ToDo 
                 key={toDo.id} {...toDo} 
                 deleteToDo={this._deleteToDo}
