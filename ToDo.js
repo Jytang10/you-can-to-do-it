@@ -1,11 +1,12 @@
 import React, {Component} from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, TextInput } from "react-native";
 
 const { width, height} = Dimensions.get("window");
 export default class ToDo extends React.Component {
   state = {
     isEditing: false,
-    isCompleted: false
+    isCompleted: false,
+    toDoValue: ""
   }
 
   _toggleComplete = () => {
@@ -17,8 +18,10 @@ export default class ToDo extends React.Component {
   }
 
   _startEditing = () => {
+    const { text } = this.props;
     this.setState({
-      isEditing: true
+      isEditing: true,
+      toDoValue: text
     })
   }
 
@@ -28,8 +31,13 @@ export default class ToDo extends React.Component {
     })
   }
 
+  _controlInput = (text) => {
+    this.setState({ toDoValue: text})
+  }
+
   render() {
-    const { isCompleted, isEditing } = this.state;
+    const { isCompleted, isEditing, toDoValue } = this.state;
+    const { text } = this.props;
     return (
     <View style={styles.container}>
       <View style={styles.column}>
@@ -40,12 +48,28 @@ export default class ToDo extends React.Component {
             ]}>
           </View>
         </TouchableOpacity>
-        <Text style={[
-          styles.text,
-          isCompleted ? styles.completedText: styles.uncompletedText
-          ]}>
-        Hello I am a To Do
-        </Text>
+          {isEditing ? (
+            <TextInput
+              style={[
+                styles.text,          
+                styles.input,
+                isCompleted ? styles.completedText : styles.uncompletedText
+              ]} 
+              value={toDoValue} 
+              multiline={true}
+              onChangeText={this._controlInput}
+              returnKeyType={"done"}
+              onBlur={this._finishEditing}
+              >
+            </TextInput>
+            ) : (
+            <Text style={[
+              styles.text,
+              isCompleted ? styles.completedText : styles.uncompletedText
+            ]}>
+            {text}
+            </Text>
+          )}
       </View>
         {isEditing ? (
           <View style={styles.actions}>
@@ -120,5 +144,10 @@ const styles = StyleSheet.create({
   actionsContainer: {
     marginVertical: 10,
     marginHorizontal: 10
+  },
+  input: {
+    marginVertical: 15,
+    width: width / 2,
+    paddingBottom: 5
   }
 })

@@ -32,7 +32,7 @@ export default class App extends React.Component {
           >
           </TextInput>
           <ScrollView contentContainerStyle={styles.toDos}>
-            <ToDo></ToDo>
+            <ToDo text={"Hello I am a To Do"}></ToDo>
           </ScrollView>
         </View>
       </View>
