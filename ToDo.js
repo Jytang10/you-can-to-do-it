@@ -16,6 +16,18 @@ export default class ToDo extends React.Component {
     })
   }
 
+  _startEditing = () => {
+    this.setState({
+      isEditing: true
+    })
+  }
+
+  _finishEditing = () => {
+    this.setState({
+      isEditing: false
+    })
+  }
+
   render() {
     const { isCompleted, isEditing } = this.state;
     return (
@@ -35,30 +47,28 @@ export default class ToDo extends React.Component {
         Hello I am a To Do
         </Text>
       </View>
-      <View style={styles.column}>
         {isEditing ? (
-          <View style={styles.action}>
-            <TouchableOpacity>
-              <View style={styles.actionContainer}>
+          <View style={styles.actions}>
+            <TouchableOpacity onPressOut={this._finishEditing}>
+              <View style={styles.actionsContainer}>
                 <Text style={styles.actionText}>✅</Text>
               </View>
             </TouchableOpacity>
           </View>
         ) : (
-          <View style={styles.action}>
-            <TouchableOpacity>
-              <View style={styles.actionContainer}>
-                <Text style={styles.actionText}>✏️</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <View style={styles.actionContainer}>
-                <Text style={styles.actionText}>❌</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        )}
-      </View>
+        <View style={styles.actions}>
+          <TouchableOpacity onPressOut={this._startEditing}>
+            <View style={styles.actionsContainer}>
+              <Text style={styles.actionText}>✏️</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <View style={styles.actionsContainer}>
+              <Text style={styles.actionText}>❌</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
     )
   }
@@ -70,7 +80,8 @@ const styles = StyleSheet.create({
     borderBottomColor: "#bbb",
     borderBottomWidth: StyleSheet.hairlineWidth,
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+    justifyContent: "space-between"
   },
   circle: {
     width: 30,
@@ -96,5 +107,18 @@ const styles = StyleSheet.create({
   },
   uncompletedText: {
     color: "#353839"
+  },
+  column: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: width / 2,
+    justifyContent: "space-between"
+  },
+  actions: {
+    flexDirection: "row"
+  },
+  actionsContainer: {
+    marginVertical: 10,
+    marginHorizontal: 10
   }
 })
