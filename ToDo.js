@@ -1,13 +1,20 @@
 import React, {Component} from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, TextInput } from "react-native";
+import PropTypes from "prop-types";
 
 const { width, height} = Dimensions.get("window");
 export default class ToDo extends React.Component {
-  state = {
-    isEditing: false,
-    isCompleted: false,
-    toDoValue: ""
+  constructor(props) {
+    super(props);
+    this.state = {
+      isEditing: false,
+      toDoValue: props.text
+    }
   }
+  static PropTypes = {
+    text: PropTypes.string.isRequired,
+    isCompleted: PropTypes.bool.isRequired
+  };
 
   _toggleComplete = () => {
     this.setState(prevState => {
