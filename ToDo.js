@@ -4,14 +4,28 @@ import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-nati
 const { width, height} = Dimensions.get("window");
 export default class ToDo extends React.Component {
   state = {
-    isEditing: false
+    isEditing: false,
+    isCompleted: false
+  }
+
+  _toggleComplete = () => {
+    this.setState(prevState => {
+      return ({
+        isCompleted: !prevState.isCompleted
+      })
+    })
   }
 
   render() {
+    const { isCompleted } = this.state;
     return (
     <View style={styles.container}>
-      <TouchableOpacity>
-        <View style={styles.circle}></View>
+      <TouchableOpacity onPress={this._toggleComplete}>
+        <View style={[
+          styles.circle,
+          isCompleted ? styles.completedCircle : styles.uncompletedCircle
+          ]}>
+        </View>
       </TouchableOpacity>
       <Text style={styles.text}>Hello I am a To Do</Text>
     </View>
@@ -31,9 +45,14 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 15,
-    borderColor: "red",
     borderWidth: 3,
     marginRight: 20
+  },
+  completedCircle: {
+    borderColor: "green"
+  },
+  uncompletedCircle: {
+    borderColor: "#F23657"
   },
   text: {
     fontWeight: "600",
