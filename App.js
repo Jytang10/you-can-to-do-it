@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, StatusBar, TextInput, Dimensions, Platform, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, StatusBar, TextInput, Dimensions, Platform, ScrollView, AsyncStorage } from 'react-native';
 import { AppLoading } from 'expo';
 import ToDo from './ToDo';
 import uuidv1 from "uuid/v1";
@@ -21,10 +21,14 @@ export default class App extends React.Component {
     this.setState({newToDo: text})
   }
 
-  _loadToDos = () => {
-    this.setState({
-      loadedToDos: true
-    })
+  _loadToDos = async () => {
+    try {
+      const toDos = await AsyncStorage.getItem("toDos");
+      const parsedToDos = JSON.parse(toDos);
+      this.setState({loadedToDos: true, toDos: parsedToDos});
+    } catch(err) {
+      console.log(err);
+    }
   }
 
   _addToDo = () => {
@@ -48,6 +52,7 @@ export default class App extends React.Component {
             ...newToDoObject
           }
         }
+        this._saveToDos(newState.toDos); 
         return { ...newState };
       });
     }
@@ -61,6 +66,7 @@ export default class App extends React.Component {
         ...prevState,
         ...toDos
       }
+      this._saveToDos(newState.toDos); 
       return {...newState}
     })
   }
@@ -77,6 +83,7 @@ export default class App extends React.Component {
           }
         }
       }
+      this._saveToDos(newState.toDos); 
       return {...newState};
     })
   }
@@ -93,6 +100,7 @@ export default class App extends React.Component {
           }
         }
       }
+      this._saveToDos(newState.toDos); 
       return {...newState};
     })
   }
@@ -109,8 +117,13 @@ export default class App extends React.Component {
           }
         }
       }
+      this._saveToDos(newState.toDos);  
       return {...newState};
     })
+  }
+
+  _saveToDos =  newToDos => {
+    const saveToDos = AsyncStorage.setItem("toDos", JSON.stringify(newToDos))
   }
 
   render(){
@@ -135,7 +148,9 @@ export default class App extends React.Component {
           >
           </TextInput>
           <ScrollView contentContainerStyle={styles.toDos}>
-            {Object.values(toDos).map( toDo => 
+            {Object.values(toDos)
+            .reverse()
+            .map( toDo => 
               <ToDo 
                 key={toDo.id} {...toDo} 
                 deleteToDo={this._deleteToDo}
