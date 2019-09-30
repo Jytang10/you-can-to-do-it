@@ -21,7 +21,8 @@ export default class ToDo extends React.Component {
     updateToDo: PropTypes.func.isRequired
   };
 
-  _toggleComplete = () => {
+  _toggleComplete = (event) => {
+    event.stopPragation();
     const { isCompleted, uncompleteToDo, completeToDo, id } = this.props;
     if(isCompleted) {
       uncompleteToDo(id);
@@ -30,7 +31,8 @@ export default class ToDo extends React.Component {
     }
   }
 
-  _startEditing = () => {
+  _startEditing = (event) => {
+    event.stopPragation();
     const { text } = this.props;
     this.setState({
       isEditing: true,
@@ -38,7 +40,8 @@ export default class ToDo extends React.Component {
     })
   }
 
-  _finishEditing = () => {
+  _finishEditing = (event) => {
+    event.stopPragation();
     const { toDoValue } = this.state;
     const { id, updateToDo } = this.props;
     updateToDo(id, toDoValue);
@@ -102,7 +105,11 @@ export default class ToDo extends React.Component {
               <Text style={styles.actionText}>✏️</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPressOut={() => deleteToDo (id) }>
+          <TouchableOpacity onPressOut={(event) => {
+            event.stopPropagation();
+            deleteToDo (id);
+          }
+          }>
             <View style={styles.actionsContainer}>
               <Text style={styles.actionText}>❌</Text>
             </View>
