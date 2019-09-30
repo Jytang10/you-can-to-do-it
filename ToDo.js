@@ -13,7 +13,9 @@ export default class ToDo extends React.Component {
   }
   static PropTypes = {
     text: PropTypes.string.isRequired,
-    isCompleted: PropTypes.bool.isRequired
+    isCompleted: PropTypes.bool.isRequired,
+    deleteToDo: PropTypes.func.isRequired,
+    id: PropTypes.string.isRequired
   };
 
   _toggleComplete = () => {
@@ -44,7 +46,7 @@ export default class ToDo extends React.Component {
 
   render() {
     const { isCompleted, isEditing, toDoValue } = this.state;
-    const { text } = this.props;
+    const { text, id, deleteToDo } = this.props;
     return (
     <View style={styles.container}>
       <View style={styles.column}>
@@ -93,7 +95,7 @@ export default class ToDo extends React.Component {
               <Text style={styles.actionText}>✏️</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPressOut={() => deleteToDo (id) }>
             <View style={styles.actionsContainer}>
               <Text style={styles.actionText}>❌</Text>
             </View>
