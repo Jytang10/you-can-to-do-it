@@ -17,17 +17,48 @@ export default class ToDo extends React.Component {
   }
 
   render() {
-    const { isCompleted } = this.state;
+    const { isCompleted, isEditing } = this.state;
     return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={this._toggleComplete}>
-        <View style={[
-          styles.circle,
-          isCompleted ? styles.completedCircle : styles.uncompletedCircle
+      <View style={styles.column}>
+        <TouchableOpacity onPress={this._toggleComplete}>
+          <View style={[
+            styles.circle,
+            isCompleted ? styles.completedCircle : styles.uncompletedCircle
+            ]}>
+          </View>
+        </TouchableOpacity>
+        <Text style={[
+          styles.text,
+          isCompleted ? styles.completedText: styles.uncompletedText
           ]}>
-        </View>
-      </TouchableOpacity>
-      <Text style={styles.text}>Hello I am a To Do</Text>
+        Hello I am a To Do
+        </Text>
+      </View>
+      <View style={styles.column}>
+        {isEditing ? (
+          <View style={styles.action}>
+            <TouchableOpacity>
+              <View style={styles.actionContainer}>
+                <Text style={styles.actionText}>✅</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View style={styles.action}>
+            <TouchableOpacity>
+              <View style={styles.actionContainer}>
+                <Text style={styles.actionText}>✏️</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <View style={styles.actionContainer}>
+                <Text style={styles.actionText}>❌</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
     </View>
     )
   }
@@ -59,4 +90,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginVertical: 20
   },
+  completedText: {
+    color: "#bbb",
+    textDecorationLine: "line-through"
+  },
+  uncompletedText: {
+    color: "#353839"
+  }
 })
