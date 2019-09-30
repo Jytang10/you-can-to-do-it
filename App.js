@@ -4,13 +4,13 @@ import { AppLoading } from 'expo';
 import ToDo from './ToDo';
 import uuidv1 from "uuid/v1";
 
-
 const {height, width} = Dimensions.get("window");
 
 export default class App extends React.Component {
   state = {
     newToDo: "",
-    loadedToDos: false
+    loadedToDos: false,
+    toDos: {}
   };
 
   componentDidMount = () => {
@@ -54,7 +54,7 @@ export default class App extends React.Component {
   }
 
   render(){
-    const { newToDo, loadedToDos} = this.state;
+    const { newToDo, loadedToDos, toDos } = this.state;
     if(!loadedToDos){
       return <AppLoading></AppLoading>;
     }
@@ -75,7 +75,7 @@ export default class App extends React.Component {
           >
           </TextInput>
           <ScrollView contentContainerStyle={styles.toDos}>
-            <ToDo text={"Hello I am a To Do"}></ToDo>
+            {Object.values(toDos).map( toDo => <ToDo key={toDo.id} {...toDo}></ToDo>)}
           </ScrollView>
         </View>
       </View>
