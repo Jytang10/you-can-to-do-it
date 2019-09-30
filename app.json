@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "You Can (To) Do It",
+    "description": "A simple To-Do list application I made using React Native and Expo CLI.",
     "slug": "you-can-to-do-it",
     "privacy": "public",
     "sdkVersion": "35.0.0",
